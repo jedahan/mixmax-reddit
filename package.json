@@ -4,7 +4,8 @@
   "description": "Giphy App for Mixmax",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "test": "open -a Chromium http://mail.google.com --args --allow-running-insecure-content --ignore-certificate-errors"
   },
   "repository": {
     "type": "git",
