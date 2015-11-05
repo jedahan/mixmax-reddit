@@ -31,10 +31,11 @@ const search = function (term) {
       } else {
         options.q = term
       }
-
-      reddit('/r/unexpected/hot').get(options).then((slice) => {
+      console.log(subreddit)
+      console.log(options)
+      reddit(subreddit).get(options).then((slice) => {
         resolve(slice.data.children
-          .filter((child) => /imgur.com\/(\w+)\.(\w+)/.test(child.data.url))
+          .filter((child) => (/imgur.com/.test(child.data.url) && /\.(\w+)$/.test(child.data.url)))
           .map((child) => {
             if (/gifv$/.test(child.data.url)) {
               return child.data.url.slice(0, -1)
