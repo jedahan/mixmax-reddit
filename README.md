@@ -1,6 +1,8 @@
-# Giphy Slash Command for Mixmax
+# Reddit Slash Command for Mixmax
 
-This is an open source Mixmax Slash Command. See <http://sdk.mixmax.com/docs/tutorial-giphy-slash-command> for more information about how to use this example code in Mixmax.
+This is an open source Mixmax Slash Command. Right now, you are much better off searching a gif-only or image-only subreddit as I have not yet figured out how to filter the reddit api end.
+
+For some reason, you can query
 
 ## Running locally
 

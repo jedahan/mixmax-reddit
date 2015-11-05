@@ -13,23 +13,36 @@ const reddit = new Snoocore({
 const search = function (term) {
   return new Promise(
     function (resolve, reject) {
-      if (term.length < 3) { reject('small') }
+      if (term.length < 7) { reject('small') }
 
-      if (term.indexOf('r/') !== 0) {
-        reddit('/hot').get({q: term + '&site:imgur.com', type: 'link'}).then((slice) => {
-          resolve(slice.data.children.map((child) => child.data.selftext))
-        })
-      } else if (term.indexOf(' ') > 3) {
-        let regex = /^(r\/\w+) (.*)/.exec(term)
-        let subreddit = regex[1]
-        term = regex[2]
+      const options = {limit: 100}
+      let subreddit = '/hot'
 
-        reddit(subreddit).get({q: term + '&site:imgur.com', restrict_sr: true, type: 'link'}).then((slice) => {
-          resolve(slice.data.children
-            .filter((child) => /\.gif$/.test(child.data.selftext))
-            .map((child) => child.data.selftext))
-        })
+      if (/^(r\/\w+)/.test(term)) {
+        subreddit = /^(r\/\w+)/.exec(term)[1]
+        if (/\ (.*)$/.test(term)) {
+          subreddit += '/search'
+          options.q = /\ (.*)$/.exec(term)[1]
+          options.restrict_sr = true
+          options.type = 'link'
+        } else {
+          subreddit += '/hot'
+        }
+      } else {
+        options.q = term
       }
+
+      reddit('/r/unexpected/hot').get(options).then((slice) => {
+        resolve(slice.data.children
+          .filter((child) => /imgur.com\/(\w+)\.(\w+)/.test(child.data.url))
+          .map((child) => {
+            if (/gifv$/.test(child.data.url)) {
+              return child.data.url.slice(0, -1)
+            }
+            return child.data.url
+          })
+        )
+      })
     }
   )
 }

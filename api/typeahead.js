@@ -2,7 +2,7 @@ const reddit = require('../utils/reddit')
 
 // The Type Ahead API.
 module.exports = function (req, res) {
-  const term = req.query.text.trim()
+  const term = req.query.text
 
   if (!term) {
     res.json([{
